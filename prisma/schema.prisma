@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Film {
+  id         String      @id @default(uuid())
+  name       String
+  release    DateTime
+  genre      Genre       @relation(fields: [genreId], references: [id])
+  genreId    String      @map("genre_id")
+  director   Director    @relation(fields: [directorId], references: [id])
+  directorId String      @map("director_id")
+  reviews    Review[]
+  filmActors FilmActor[]
+
+  @@map("films")
+}
+
+model Actor {
+  id         String      @id @default(uuid())
+  firstName  String      @map("first_name")
+  lastName   String      @map("last_name")
+  filmActors FilmActor[]
+
+  @@map("actors")
+}
+
+model Director {
+  id        String @id @default(uuid())
+  firstName String @map("first_name")
+  lastName  String @map("last_name")
+  Film      Film[]
+
+  @@map("directors")
+}
+
+model FilmActor {
+  id      String @id @default(uuid())
+  film    Film   @relation(fields: [filmId], references: [id], onDelete: Cascade)
+  filmId  String @map("film_id")
+  actor   Actor  @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  actorId String @map("actor_id")
+
+  @@map("film_actors")
+}
+
+model Genre {
+  id    String @id @default(uuid())
+  name  String
+  films Film[]
+
+  @@map("genres")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  firstName String   @map("first_name")
+  lastName  String?  @map("last_name")
+  reviews   Review[]
+
+  @@map("users")
+}
+
+model Review {
+  id      String  @id @default(uuid())
+  rating  Int
+  comment String?
+  film    Film    @relation(fields: [filmId], references: [id], onDelete: Cascade)
+  filmId  String  @map("film_id")
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String  @map("user_id")
+
+  @@map("reviews")
+}
