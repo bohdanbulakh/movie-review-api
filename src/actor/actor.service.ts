@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class ActorService {
-  create (createActorDto: CreateActorDto) {
-    return 'This action adds a new actor';
+  constructor (private readonly prisma: PrismaClient) {}
+
+  create (actor: CreateActorDto) {
+    return this.prisma.actor.create({
+      data: actor,
+    });
   }
 
   findAll () {
-    return 'This action returns all actor';
+    return this.prisma.actor.findMany();
   }
 
-  findOne (id: number) {
-    return `This action returns a #${id} actor`;
+  findOne (id: string) {
+    return this.prisma.actor.findUnique({
+      where: { id },
+    });
   }
 
-  update (id: number, updateActorDto: UpdateActorDto) {
-    return `This action updates a #${id} actor`;
+  update (id: string, actor: UpdateActorDto) {
+    return this.prisma.actor.update({
+      where: { id },
+      data: actor,
+    });
   }
 
-  remove (id: number) {
-    return `This action removes a #${id} actor`;
+  remove (id: string) {
+    return this.prisma.actor.delete({
+      where: { id },
+    });
   }
 }

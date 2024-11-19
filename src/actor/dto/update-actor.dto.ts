@@ -1,4 +1,15 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateActorDto } from './create-actor.dto';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
-export class UpdateActorDto extends PartialType(CreateActorDto) {}
+export class UpdateActorDto {
+  @IsOptional()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(50)
+    firstName?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(50)
+    lastName?: string;
+}

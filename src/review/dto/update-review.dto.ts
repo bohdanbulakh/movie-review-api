@@ -1,4 +1,19 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateReviewDto } from './create-review.dto';
+import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 
-export class UpdateReviewDto extends PartialType(CreateReviewDto) {}
+export class UpdateReviewDto {
+  @IsOptional()
+  @IsNumber()
+    rating?: number;
+
+  @IsOptional()
+  @IsString()
+    comment?: string;
+
+  @IsOptional()
+  @IsUUID()
+    filmId?: string;
+
+  @IsOptional()
+  @IsUUID()
+    userId?: string;
+}

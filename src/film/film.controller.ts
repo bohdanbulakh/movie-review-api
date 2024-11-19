@@ -3,7 +3,7 @@ import { FilmService } from './film.service';
 import { CreateFilmDto } from './dto/create-film.dto';
 import { UpdateFilmDto } from './dto/update-film.dto';
 
-@Controller('film')
+@Controller('films')
 export class FilmController {
   constructor (private readonly filmService: FilmService) {}
 
@@ -19,16 +19,16 @@ export class FilmController {
 
   @Get(':id')
   findOne (@Param('id') id: string) {
-    return this.filmService.findOne(+id);
+    return this.filmService.findOne(id);
   }
 
   @Patch(':id')
   update (@Param('id') id: string, @Body() updateFilmDto: UpdateFilmDto) {
-    return this.filmService.update(+id, updateFilmDto);
+    return this.filmService.update(id, updateFilmDto);
   }
 
   @Delete(':id')
   remove (@Param('id') id: string) {
-    return this.filmService.remove(+id);
+    return this.filmService.remove(id);
   }
 }

@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class DirectorService {
-  create (createDirectorDto: CreateDirectorDto) {
-    return 'This action adds a new director';
+  constructor (
+      private  readonly prisma: PrismaClient,
+  ) {}
+
+  create (director: CreateDirectorDto) {
+    return this.prisma.director.create({
+      data: director,
+    });
   }
 
   findAll () {
-    return 'This action returns all director';
+    return this.prisma.director.findMany();
   }
 
-  findOne (id: number) {
-    return `This action returns a #${id} director`;
+  findOne (id: string) {
+    return this.prisma.director.findUnique({
+      where: { id },
+    });
   }
 
-  update (id: number, updateDirectorDto: UpdateDirectorDto) {
-    return `This action updates a #${id} director`;
+  update (id: string, director: UpdateDirectorDto) {
+    return this.prisma.director.update({
+      where: { id },
+      data: director,
+    });
   }
 
-  remove (id: number) {
-    return `This action removes a #${id} director`;
+  remove (id: string) {
+    return this.prisma.director.delete({
+      where: { id },
+    });
   }
 }
