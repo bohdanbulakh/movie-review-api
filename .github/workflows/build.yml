@@ -1,6 +1,9 @@
 name: Build
 on:
   push:
+    paths:
+      - 'src/**'
+      - 'prisma/**'
     branches:
       - main
 
