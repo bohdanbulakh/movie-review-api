@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  api:
+    image: bohdanbulakh/movie-review-api
+    container_name: api
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DOCKER_DATABASE_URL}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.4-oracle
+    container_name: mysql
+    volumes:
+      - ~/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
