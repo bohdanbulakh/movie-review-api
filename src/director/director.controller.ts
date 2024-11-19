@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { DirectorService } from './director.service';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
+import { DirectorByIdPipe } from '../pipes/director-by-id.pipe';
 
 @Controller('directors')
 export class DirectorController {
@@ -18,12 +19,15 @@ export class DirectorController {
   }
 
   @Get(':id')
-  findOne (@Param('id') id: string) {
+  findOne (@Param('id', DirectorByIdPipe) id: string) {
     return this.directorService.findOne(id);
   }
 
   @Patch(':id')
-  update (@Param('id') id: string, @Body() updateDirectorDto: UpdateDirectorDto) {
+  update (
+    @Param('id') id: string,
+    @Body() updateDirectorDto: UpdateDirectorDto
+  ) {
     return this.directorService.update(id, updateDirectorDto);
   }
 

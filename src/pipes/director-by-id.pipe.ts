@@ -7,7 +7,7 @@ export class DirectorByIdPipe implements PipeTransform {
   constructor (private readonly prisma: PrismaClient) {}
 
   async transform (id: string): Promise<string> {
-    const director = this.prisma.director.findUnique({
+    const director = await this.prisma.director.findUnique({
       where: { id },
     });
 

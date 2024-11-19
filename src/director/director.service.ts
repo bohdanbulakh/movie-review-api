@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
 import { PrismaClient } from '@prisma/client';
+import { EntityNotFoundException } from '../exceptions/entity-not-found.exception';
 
 @Injectable()
 export class DirectorService {
@@ -25,10 +26,18 @@ export class DirectorService {
     });
   }
 
-  update (id: string, director: UpdateDirectorDto) {
+  async update (id: string, directorData: UpdateDirectorDto) {
+    const director = await this.prisma.director.findUnique({
+      where: { id },
+    });
+
+    if (!director) {
+      throw new EntityNotFoundException('Director');
+    }
+
     return this.prisma.director.update({
       where: { id },
-      data: director,
+      data: directorData,
     });
   }
 
