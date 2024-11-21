@@ -143,6 +143,50 @@ async function main () {
       firstName: user.firstName,
     },
   });
+
+  // include related entities
+  await prisma.user.findMany({
+    include: {
+      reviews: true,
+    },
+  });
+
+  await prisma.user.findMany({
+    include: {
+      reviews: {
+        where: {
+          comment: null,
+        },
+      },
+    },
+  });
+
+
+
+  // create entity with relation
+
+  await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      reviews: {
+        create: {
+          filmId: 'some-id',
+          rating: 10,
+        },
+      },
+    },
+  });
+
+  // select fields
+
+  await prisma.user.findMany({
+    select: {
+      firstName: true,
+      lastName: true,
+    },
+  });
 }
 
 main();
