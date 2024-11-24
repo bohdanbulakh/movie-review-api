@@ -34,7 +34,6 @@ async function main () {
   });
 
 
-
   // Get
 
   // get first entity, which fields match fields of "where: {}"
@@ -76,7 +75,6 @@ async function main () {
   await prisma.user.findMany();
 
 
-
   // Update
 
   // all fields in "data: {}" are always optional
@@ -97,34 +95,7 @@ async function main () {
     data: {},
   });
 
-
-
-  // Delete
-  await prisma.user.delete({
-    where: {
-      id: user.id,
-    },
-  });
-
-
-
-  // inside "where: {}" of .update() and .delete() methods must be at least one unique field
-  await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      firstName: faker.person.firstName(),
-    },
-  });
-
-  await prisma.user.delete({
-    where: {
-      username: user.username,
-    },
-  });
-
-  // errors here, because lastName and firstName are not unique
+  // error here, because lastName is not unique
   await prisma.user.update({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
@@ -133,6 +104,19 @@ async function main () {
     },
     data: {
       firstName: faker.person.firstName(),
+    },
+  });
+
+  // Delete
+  await prisma.user.delete({
+    where: {
+      id: user.id,
+    },
+  });
+
+  await prisma.user.delete({
+    where: {
+      username: user.username,
     },
   });
 
@@ -160,7 +144,6 @@ async function main () {
       },
     },
   });
-
 
 
   // create entity with relation

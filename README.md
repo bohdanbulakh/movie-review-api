@@ -10,7 +10,7 @@ This is a demo application created to show basics of the NestJS framework and Pr
 
 - Node.js and npm
 - MySQL
-- Docker
+- Docker(optional)
 
 ## Development
 

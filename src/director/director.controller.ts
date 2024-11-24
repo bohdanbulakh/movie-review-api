@@ -19,7 +19,7 @@ export class DirectorController {
   }
 
   @Get(':id')
-  findOne (@Param('id', DirectorByIdPipe) id: string) {
+  findOne (@Param('id') id: string) {
     return this.directorService.findOne(id);
   }
 
@@ -32,7 +32,7 @@ export class DirectorController {
   }
 
   @Delete(':id')
-  remove (@Param('id') id: string) {
+  remove (@Param('id', DirectorByIdPipe) id: string) {
     return this.directorService.remove(id);
   }
 }
